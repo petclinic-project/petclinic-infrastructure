@@ -38,3 +38,21 @@ module "ecr" {
     "admin-server"
   ]
 }
+
+# Task 3: Generate a secure, random password
+resource "random_password" "db_password" {
+  length           = 16
+  special          = true
+  override_special = "!#$%&*()-_=+[]{}<>:?"
+}
+
+# Task 2: Instantiate the RDS Module
+module "rds" {
+  source = "../../modules/rds"
+
+  project                = var.project
+  environment            = var.environment
+  subnet_ids             = module.vpc.public_subnet_ids
+  vpc_security_group_ids = [module.vpc.rds_sg_id]
+  db_password            = random_password.db_password.result
+}
