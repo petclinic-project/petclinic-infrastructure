@@ -56,3 +56,18 @@ module "rds" {
   vpc_security_group_ids = [module.vpc.rds_sg_id]
   db_password            = random_password.db_password.result
 }
+
+# Task 1 (Sprint 4): Store RDS Credentials in Secrets Manager
+module "rds_secrets" {
+  source = "../../modules/secrets"
+
+  project            = var.project
+  environment        = var.environment
+  secret_name_suffix = "rds-credentials"
+
+  secret_payload = {
+    username = "admin"
+    password = random_password.db_password.result
+    host     = module.rds.db_endpoint
+  }
+}
