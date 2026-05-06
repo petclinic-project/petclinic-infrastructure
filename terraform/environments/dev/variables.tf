@@ -30,3 +30,9 @@ variable "public_subnets" {
   description = "List of public subnet CIDR blocks"
   type        = list(string)
 }
+
+variable "cluster_version" {
+  description = "Kubernetes version"
+  type        = string
+  default     = "1.31"
+}
