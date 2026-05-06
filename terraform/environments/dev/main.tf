@@ -20,3 +20,21 @@ module "eks" {
   subnet_ids    = module.vpc.public_subnet_ids
   cluster_sg_id = module.vpc.eks_cluster_sg_id
 }
+
+module "ecr" {
+  source = "../../modules/ecr"
+
+  project     = var.project
+  environment = var.environment
+
+  service_names = [
+    "config-server",
+    "discovery-server",
+    "api-gateway",
+    "customers-service",
+    "visits-service",
+    "vets-service",
+    "genai-service",
+    "admin-server"
+  ]
+}
