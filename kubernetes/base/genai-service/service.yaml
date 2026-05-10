@@ -10,7 +10,8 @@ spec:
     app: genai-service
 
   ports:
-    - port: 8084
+    - name: http
+      port: 8084
       targetPort: 8084
 
   type: ClusterIP
