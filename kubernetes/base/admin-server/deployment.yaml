@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: admin-server
+  namespace: petclinic
+  labels:
+    app: admin-server
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: admin-server
+
+  template:
+    metadata:
+      labels:
+        app: admin-server
+
+    spec:
+      containers:
+        - name: admin-server
+
+          image: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-dev/admin-server:43cd6979b41b66442e4ab000f8cf4ad297c956e8
+
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 9090
+
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
+
+            - name: CONFIG_SERVER_URL
+              value: http://config-server:8888
+
+            - name: EUREKA_SERVER_URL
+              value: http://discovery-server:8761/eureka
+
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "512Mi"
+
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 9090
+
+            initialDelaySeconds: 60
+            periodSeconds: 15
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 9090
+
+            initialDelaySeconds: 90
+            periodSeconds: 20

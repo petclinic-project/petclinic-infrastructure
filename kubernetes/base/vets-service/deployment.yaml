@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: vets-service
+  namespace: petclinic
+  labels:
+    app: vets-service
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: vets-service
+
+  template:
+    metadata:
+      labels:
+        app: vets-service
+
+    spec:
+      containers:
+        - name: vets-service
+
+          image: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-dev/vets-service:43cd6979b41b66442e4ab000f8cf4ad297c956e8
+
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 8083
+
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker,mysql
+
+            - name: CONFIG_SERVER_URL
+              value: http://config-server:8888
+
+            - name: EUREKA_SERVER_URL
+              value: http://discovery-server:8761/eureka
+
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: petclinic-rds-secret
+                  key: username
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: petclinic-rds-secret
+                  key: password
+
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: petclinic-rds-secret
+                  key: jdbc-url
+
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "512Mi"
+
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8083
+
+            initialDelaySeconds: 60
+            periodSeconds: 15
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8083
+
+            initialDelaySeconds: 90
+            periodSeconds: 20
