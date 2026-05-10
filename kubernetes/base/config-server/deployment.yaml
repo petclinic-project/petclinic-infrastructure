@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: config-server
+  namespace: petclinic
+  labels:
+    app: config-server
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: config-server
+
+  template:
+    metadata:
+      labels:
+        app: config-server
+
+    spec:
+      containers:
+        - name: config-server
+
+          image: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-dev/config-server:43cd6979b41b66442e4ab000f8cf4ad297c956e8
+
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 8888
+
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8888
+
+            initialDelaySeconds: 20
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8888
+
+            initialDelaySeconds: 30
+            periodSeconds: 15
