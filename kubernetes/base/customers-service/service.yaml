@@ -5,6 +5,9 @@ metadata:
   name: customers-service
   namespace: petclinic
 
+  labels:
+    app: customers-service
+
 spec:
   selector:
     app: customers-service

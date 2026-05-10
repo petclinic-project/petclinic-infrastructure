@@ -5,6 +5,9 @@ metadata:
   name: genai-service
   namespace: petclinic
 
+  labels:
+    app: genai-service
+
 spec:
   selector:
     app: genai-service

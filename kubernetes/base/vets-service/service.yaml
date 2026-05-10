@@ -5,6 +5,9 @@ metadata:
   name: vets-service
   namespace: petclinic
 
+  labels:
+    app: vets-service
+
 spec:
   selector:
     app: vets-service

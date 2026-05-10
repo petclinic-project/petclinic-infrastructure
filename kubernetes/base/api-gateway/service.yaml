@@ -5,6 +5,9 @@ metadata:
   name: api-gateway
   namespace: petclinic
 
+  labels:
+    app: api-gateway
+
 spec:
   selector:
     app: api-gateway

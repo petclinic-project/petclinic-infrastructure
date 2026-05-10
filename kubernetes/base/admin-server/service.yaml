@@ -5,6 +5,9 @@ metadata:
   name: admin-server
   namespace: petclinic
 
+  labels:
+    app: admin-server
+
 spec:
   selector:
     app: admin-server
