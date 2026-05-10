@@ -1,11 +1,12 @@
 module "vpc" {
   source = "../../modules/vpc"
 
-  project        = var.project
-  environment    = var.environment
-  vpc_cidr       = var.vpc_cidr
-  azs            = var.azs
-  public_subnets = var.public_subnets
+  project         = var.project
+  environment     = var.environment
+  vpc_cidr        = var.vpc_cidr
+  azs             = var.azs
+  public_subnets  = var.public_subnets
+  private_subnets = var.private_subnets
 }
 
 module "eks" {
@@ -19,6 +20,24 @@ module "eks" {
   vpc_id        = module.vpc.vpc_id
   subnet_ids    = module.vpc.public_subnet_ids
   cluster_sg_id = module.vpc.eks_cluster_sg_id
+}
+
+# =========================================================
+# EKS OIDC PROVIDER (IRSA FOUNDATION)
+# =========================================================
+
+data "tls_certificate" "eks_oidc" {
+  url = module.eks.oidc_provider_issuer
+}
+
+resource "aws_iam_openid_connect_provider" "eks" {
+  client_id_list = ["sts.amazonaws.com"]
+
+  thumbprint_list = [
+    data.tls_certificate.eks_oidc.certificates[0].sha1_fingerprint
+  ]
+
+  url = module.eks.oidc_provider_issuer
 }
 
 module "ecr" {
@@ -52,7 +71,7 @@ module "rds" {
 
   project                = var.project
   environment            = var.environment
-  subnet_ids             = module.vpc.public_subnet_ids
+  subnet_ids             = module.vpc.private_subnet_ids
   vpc_security_group_ids = [module.vpc.rds_sg_id]
   db_password            = random_password.db_password.result
 }

@@ -11,7 +11,7 @@ variable "environment" {
 variable "cluster_version" {
   description = "Kubernetes version"
   type        = string
-  default     = "1.31" # 1.30+ is required for Auto Mode
+  default     = "1.32"
 }
 
 variable "vpc_id" {

@@ -33,6 +33,21 @@ resource "aws_subnet" "public" {
   }
 }
 
+# 3B. Private Subnets for RDS
+resource "aws_subnet" "private" {
+  count             = length(var.private_subnets)
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_subnets[count.index]
+  availability_zone = var.azs[count.index]
+
+  tags = {
+    Name = "${var.project}-subnet-private-${var.environment}-${var.azs[count.index]}"
+
+    "kubernetes.io/role/internal-elb"                             = "1"
+    "kubernetes.io/cluster/${var.project}-eks-${var.environment}" = "shared"
+  }
+}
+
 # 4. Route Table
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
@@ -79,6 +94,10 @@ resource "aws_security_group" "alb" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = "${var.project}-sg-alb-${var.environment}"
+  }
 }
 
 resource "aws_security_group" "eks_cluster" {
@@ -91,6 +110,10 @@ resource "aws_security_group" "eks_cluster" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.project}-sg-eks-cluster-${var.environment}"
   }
 }
 
@@ -126,6 +149,10 @@ resource "aws_security_group" "eks_nodes" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = "${var.project}-sg-eks-nodes-${var.environment}"
+  }
 }
 
 # Rule to allow nodes to talk to the cluster
@@ -155,5 +182,9 @@ resource "aws_security_group" "rds" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.project}-sg-rds-${var.environment}"
   }
 }

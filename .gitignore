@@ -24,5 +24,12 @@ override.tf.json
 terraform.rc
 
 # Ignore plan files
+ tfplan
 *.tfplan
 *.out
+*.plan
+*.bak
+
+# Sensitive files
+*.pem
+*.key

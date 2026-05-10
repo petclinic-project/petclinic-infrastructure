@@ -8,21 +8,28 @@ resource "aws_db_subnet_group" "this" {
 }
 
 resource "aws_db_instance" "this" {
-  identifier             = "${var.project}-rds-${var.environment}"
-  engine                 = "mysql"
-  engine_version         = "8.0"
-  instance_class         = "db.t4g.micro"
-  allocated_storage      = 20
-  
-  db_name                = var.db_name
-  username               = var.db_username
-  password               = var.db_password
-  
+  identifier               = "${var.project}-rds-${var.environment}"
+  engine                   = "mysql"
+  engine_version           = "8.0"
+  instance_class           = "db.t4g.micro"
+  allocated_storage        = 20
+  storage_encrypted        = true
+  backup_retention_period  = 1
+  delete_automated_backups = true
+
+  db_name  = var.db_name
+  username = var.db_username
+  password = var.db_password
+
   db_subnet_group_name   = aws_db_subnet_group.this.name
   vpc_security_group_ids = var.vpc_security_group_ids
-  
-  skip_final_snapshot    = true
-  publicly_accessible    = false
+
+  # Disabled for cost-efficient ephemeral dev environments.
+  # Production environments should retain final snapshots.
+
+  skip_final_snapshot = true
+  publicly_accessible = false
+  deletion_protection = false
 
   tags = {
     Name = "${var.project}-rds-${var.environment}"
