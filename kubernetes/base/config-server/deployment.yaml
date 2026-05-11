@@ -23,7 +23,7 @@ spec:
       containers:
         - name: config-server
 
-          image: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-dev/config-server:ab9c8488164f1ccd2da048f67cddd816227110bd
+          image: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-dev/config-server:330f2bf0ca790f56e168fc9eccd442cd89e72d32
 
           imagePullPolicy: Always
 
