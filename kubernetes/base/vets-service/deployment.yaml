@@ -23,7 +23,7 @@ spec:
       containers:
         - name: vets-service
 
-          image: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-dev/vets-service:43cd6979b41b66442e4ab000f8cf4ad297c956e8
+          image: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-dev/vets-service:7382acbff17cd282c897d66589ba64cf4828b470
 
           imagePullPolicy: Always
 
