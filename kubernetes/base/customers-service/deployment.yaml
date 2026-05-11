@@ -23,7 +23,7 @@ spec:
       containers:
         - name: customers-service
 
-          image: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-dev/customers-service:863f451fd0e61d4585a7fd57048366bd999e7aff
+          image: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-dev/customers-service:ab9c8488164f1ccd2da048f67cddd816227110bd
 
           imagePullPolicy: Always
 
