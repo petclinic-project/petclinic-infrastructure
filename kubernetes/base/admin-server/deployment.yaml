@@ -23,7 +23,7 @@ spec:
       containers:
         - name: admin-server
 
-          image: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-dev/admin-server:77fc608dd62e673bfebb774efe7f2ebb91dacce6
+          image: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-dev/admin-server:7382acbff17cd282c897d66589ba64cf4828b470
 
           imagePullPolicy: Always
 
