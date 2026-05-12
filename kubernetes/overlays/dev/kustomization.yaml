@@ -1,7 +1,60 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: petclinic
+namespace: petclinic-dev
 
 resources:
-  - ../../base
+  - ingress.yaml
+  - rds-external-secret.yaml
+
+helmGlobals:
+  chartHome: ../../../helm
+
+helmCharts:
+  - name: petclinic-service
+    releaseName: config-server
+    namespace: petclinic-dev
+    valuesFile: values/config-server.yaml
+    includeCRDs: false
+
+  - name: petclinic-service
+    releaseName: discovery-server
+    namespace: petclinic-dev
+    valuesFile: values/discovery-server.yaml
+    includeCRDs: false
+
+  - name: petclinic-service
+    releaseName: customers-service
+    namespace: petclinic-dev
+    valuesFile: values/customers-service.yaml
+    includeCRDs: false
+
+  - name: petclinic-service
+    releaseName: visits-service
+    namespace: petclinic-dev
+    valuesFile: values/visits-service.yaml
+    includeCRDs: false
+
+  - name: petclinic-service
+    releaseName: vets-service
+    namespace: petclinic-dev
+    valuesFile: values/vets-service.yaml
+    includeCRDs: false
+
+  - name: petclinic-service
+    releaseName: genai-service
+    namespace: petclinic-dev
+    valuesFile: values/genai-service.yaml
+    includeCRDs: false
+
+  - name: petclinic-service
+    releaseName: admin-server
+    namespace: petclinic-dev
+    valuesFile: values/admin-server.yaml
+    includeCRDs: false
+
+  - name: petclinic-service
+    releaseName: api-gateway
+    namespace: petclinic-dev
+    valuesFile: values/api-gateway.yaml
+    includeCRDs: false

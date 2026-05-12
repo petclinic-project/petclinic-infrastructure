@@ -6,7 +6,7 @@ metadata:
   namespace: argocd
 
 spec:
-  project: default
+  project: petclinic-project
 
   source:
     repoURL: https://github.com/petclinic-project/petclinic-infrastructure.git

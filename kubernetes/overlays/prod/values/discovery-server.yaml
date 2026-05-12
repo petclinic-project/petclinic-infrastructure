@@ -1,0 +1,35 @@
+replicaCount: 2
+
+image:
+  repository: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-prod/discovery-server
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8761
+
+containerPort: 8761
+
+env:
+  - name: SPRING_PROFILES_ACTIVE
+    value: kubernetes
+
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "500m"
+
+  limits:
+    memory: "1Gi"
+    cpu: "1000m"
+
+livenessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 60
+  periodSeconds: 10
+
+readinessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 30
+  periodSeconds: 10
