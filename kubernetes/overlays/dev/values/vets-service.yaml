@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-dev/vets-service
-  tag: latest
+  tag: 9951ed9fcd947ef160195f6feda8967804454f84
   pullPolicy: IfNotPresent
 
 service:
