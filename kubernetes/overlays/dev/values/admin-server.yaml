@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: 482352877891.dkr.ecr.ap-south-1.amazonaws.com/pc-dev/admin-server
-  tag: 9951ed9fcd947ef160195f6feda8967804454f84
+  tag: 5e84cd93058855819696a1c7ace62da6d5a02a67
   pullPolicy: IfNotPresent
 
 service:
