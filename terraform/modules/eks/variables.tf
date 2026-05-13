@@ -28,3 +28,8 @@ variable "cluster_sg_id" {
   description = "Security group ID for the cluster"
   type        = string
 }
+
+variable "private_subnet_ids" {
+  description = "Private subnet IDs for worker nodes"
+  type        = list(string)
+}

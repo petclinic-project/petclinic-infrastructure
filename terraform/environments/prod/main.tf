@@ -17,28 +17,12 @@ module "eks" {
   cluster_version = var.cluster_version
 
   # Injecting network outputs from the VPC module
-  vpc_id        = module.vpc.vpc_id
-  subnet_ids    = module.vpc.public_subnet_ids
-  cluster_sg_id = module.vpc.eks_cluster_sg_id
+  vpc_id             = module.vpc.vpc_id
+  subnet_ids         = module.vpc.public_subnet_ids
+  cluster_sg_id      = module.vpc.eks_cluster_sg_id
+  private_subnet_ids = module.vpc.private_subnet_ids
 }
 
-# =========================================================
-# EKS OIDC PROVIDER (IRSA FOUNDATION)
-# =========================================================
-
-data "tls_certificate" "eks_oidc" {
-  url = module.eks.oidc_provider_issuer
-}
-
-resource "aws_iam_openid_connect_provider" "eks" {
-  client_id_list = ["sts.amazonaws.com"]
-
-  thumbprint_list = [
-    data.tls_certificate.eks_oidc.certificates[0].sha1_fingerprint
-  ]
-
-  url = module.eks.oidc_provider_issuer
-}
 
 module "ecr" {
   source = "../../modules/ecr"

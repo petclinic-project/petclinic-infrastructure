@@ -16,8 +16,7 @@ kubectl create namespace external-secrets \
 helm upgrade --install external-secrets \
   external-secrets/external-secrets \
   --namespace external-secrets \
-  --set serviceAccount.create=false \
-  --set serviceAccount.name=external-secrets-sa
+  --set serviceAccount.create=true
 
 echo ""
 echo "Waiting for External Secrets deployment..."

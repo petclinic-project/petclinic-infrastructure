@@ -10,7 +10,7 @@
       "Condition": {
         "StringEquals": {
           "oidc.eks.ap-south-1.amazonaws.com/id/1556C08EBE390D5ECDA74E88C1CED789:aud": "sts.amazonaws.com",
-          "oidc.eks.ap-south-1.amazonaws.com/id/1556C08EBE390D5ECDA74E88C1CED789:sub": "system:serviceaccount:ingress-system:aws-load-balancer-controller"
+          "oidc.eks.ap-south-1.amazonaws.com/id/1556C08EBE390D5ECDA74E88C1CED789:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
         }
       }
     }
