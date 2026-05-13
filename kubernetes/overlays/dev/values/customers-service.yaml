@@ -15,6 +15,9 @@ env:
   - name: SPRING_PROFILES_ACTIVE
     value: kubernetes
 
+  - name: SPRING_CONFIG_IMPORT
+    value: optional:configserver:http://config-server:8888
+
 resources:
   requests:
     memory: "256Mi"
